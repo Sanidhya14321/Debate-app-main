@@ -1,103 +1,264 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { UI_CONFIG } from "@/lib/api";
+import { 
+  MessageSquare, 
+  Trophy, 
+  Users, 
+  Zap, 
+  Brain, 
+  Target,
+  ArrowRight,
+  Star,
+  Globe,
+  Shield,
+  TrendingUp,
+  Award,
+  BarChart3,
+  Plus
+} from "lucide-react";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [token, setToken] = useState<string | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => setToken(localStorage.getItem("token")), []);
+
+  return (
+    <div className="min-h-screen">
+      <main className="container mx-auto px-6 py-20">
+        {/* Hero Section */}
+        <motion.section 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-32"
+        >
+          <div className="mb-12">
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 mb-8"
+            >
+              <Brain className="h-5 w-5" style={{ color: UI_CONFIG.PRIMARY_COLOR }} />
+              <span className="text-sm font-medium text-white">AI-Powered Debate Platform</span>
+            </motion.div>
+          </div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-8"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            {UI_CONFIG.APP_NAME}
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12"
           >
-            Read our docs
-          </a>
-        </div>
+            Experience intelligent debates with real-time AI analysis, comprehensive scoring, 
+            and competitive tournaments. Elevate your critical thinking skills.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center"
+          >
+            {token ? (
+              <>
+                <Button 
+                  onClick={() => router.push("/debates")} 
+                  size="lg" 
+                  className="gap-3 px-8 py-4 rounded-xl text-white font-semibold"
+                  style={{ backgroundColor: UI_CONFIG.PRIMARY_COLOR }}
+                >
+                  <Plus className="h-6 w-6" /> Create Debate
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => router.push("/debates")}
+                  className="gap-3 border-white/20 text-white hover:bg-white/5 px-8 py-4 rounded-xl"
+                >
+                  <Users className="h-6 w-6" /> Browse Debates
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button 
+                  onClick={() => router.push("/register")} 
+                  size="lg" 
+                  className="gap-3 px-8 py-4 rounded-xl text-white font-semibold"
+                  style={{ backgroundColor: UI_CONFIG.PRIMARY_COLOR }}
+                >
+                  <Star className="h-6 w-6" /> Get Started
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => router.push("/login")}
+                  className="gap-3 border-white/20 text-white hover:bg-white/5 px-8 py-4 rounded-xl"
+                >
+                  <Shield className="h-6 w-6" /> Sign In
+                </Button>
+              </>
+            )}
+          </motion.div>
+        </motion.section>
+
+        {/* Stats Section */}
+        <motion.section 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="mb-32"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { icon: Users, label: "Active Debaters", value: "10K+", color: UI_CONFIG.PRIMARY_COLOR },
+              { icon: MessageSquare, label: "Debates Hosted", value: "50K+", color: UI_CONFIG.SECONDARY_COLOR },
+              { icon: Trophy, label: "Tournaments", value: "500+", color: UI_CONFIG.ACCENT_COLOR },
+              { icon: BarChart3, label: "AI Analyses", value: "1M+", color: UI_CONFIG.PRIMARY_COLOR }
+            ].map((stat, index) => (
+              <Card key={index} className="p-8 text-center bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300">
+                <stat.icon className="h-10 w-10 mx-auto mb-4" style={{ color: stat.color }} />
+                <div className="text-3xl font-bold text-white mb-2">{stat.value}</div>
+                <div className="text-sm text-gray-400">{stat.label}</div>
+              </Card>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Features Section */}
+        <motion.section 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.1 }}
+          className="mb-32"
+        >
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Powered by Advanced AI
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Experience debate like never before with cutting-edge technology
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                icon: Brain,
+                title: "Neural Analysis",
+                description: "Advanced sentiment analysis and argument strength evaluation using transformer models and deep learning algorithms.",
+                color: UI_CONFIG.PRIMARY_COLOR
+              },
+              {
+                icon: Zap,
+                title: "Real-Time Scoring",
+                description: "Instant feedback on argument quality, logical coherence, and persuasiveness with comprehensive scoring metrics.",
+                color: UI_CONFIG.SECONDARY_COLOR
+              },
+              {
+                icon: Target,
+                title: "Smart Matching",
+                description: "Intelligent opponent matching based on skill level, debate style, and topic expertise for balanced competitions.",
+                color: UI_CONFIG.ACCENT_COLOR
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.3 + index * 0.2 }}
+              >
+                <Card className="p-10 text-center bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 group h-full">
+                  <div className="mb-8">
+                    <feature.icon 
+                      className="h-16 w-16 mx-auto group-hover:scale-110 transition-transform duration-300" 
+                      style={{ color: feature.color }} 
+                    />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-6 text-white">{feature.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Additional Features */}
+        <motion.section 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.5 }}
+          className="mb-20"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <Card className="p-10 bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div className="flex items-center gap-6 mb-8">
+                <Trophy className="h-16 w-16" style={{ color: UI_CONFIG.PRIMARY_COLOR }} />
+                <div>
+                  <h3 className="text-2xl font-bold text-white">Competitive Tournaments</h3>
+                  <p className="text-gray-400">Weekly championships with prizes</p>
+                </div>
+              </div>
+              <ul className="space-y-4 text-gray-400">
+                <li className="flex items-center gap-3">
+                  <Award className="h-5 w-5" style={{ color: UI_CONFIG.PRIMARY_COLOR }} />
+                  Global leaderboards and rankings
+                </li>
+                <li className="flex items-center gap-3">
+                  <Star className="h-5 w-5" style={{ color: UI_CONFIG.PRIMARY_COLOR }} />
+                  Achievement system and badges
+                </li>
+                <li className="flex items-center gap-3">
+                  <TrendingUp className="h-5 w-5" style={{ color: UI_CONFIG.PRIMARY_COLOR }} />
+                  Performance analytics and insights
+                </li>
+              </ul>
+            </Card>
+
+            <Card className="p-10 bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300">
+              <div className="flex items-center gap-6 mb-8">
+                <Globe className="h-16 w-16" style={{ color: UI_CONFIG.SECONDARY_COLOR }} />
+                <div>
+                  <h3 className="text-2xl font-bold text-white">Global Community</h3>
+                  <p className="text-gray-400">Connect with debaters worldwide</p>
+                </div>
+              </div>
+              <ul className="space-y-4 text-gray-400">
+                <li className="flex items-center gap-3">
+                  <Users className="h-5 w-5" style={{ color: UI_CONFIG.SECONDARY_COLOR }} />
+                  Public and private debate rooms
+                </li>
+                <li className="flex items-center gap-3">
+                  <MessageSquare className="h-5 w-5" style={{ color: UI_CONFIG.SECONDARY_COLOR }} />
+                  Real-time chat and reactions
+                </li>
+                <li className="flex items-center gap-3">
+                  <Shield className="h-5 w-5" style={{ color: UI_CONFIG.SECONDARY_COLOR }} />
+                  Moderated and safe environment
+                </li>
+              </ul>
+            </Card>
+          </div>
+        </motion.section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
